@@ -76,12 +76,14 @@ public class CustomTextView extends View{
         canvas.drawRect(0, 0, getMeasuredWidth(), getMeasuredHeight(),mPaint);
 
         mPaint.setColor(mTitleTextColor);
-        canvas.drawText(mStrTitleText, getMeasuredWidth() / 2 - mBound.width() / 2, getMeasuredHeight() / 2 + mBound.height() / 2, mPaint);
+        canvas.drawText(mStrTitleText,
+                getMeasuredWidth() / 2 - mBound.width() / 2,
+                getMeasuredHeight() / 2 + mBound.height() / 2,
+                mPaint);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int widthMeasureMode = MeasureSpec.getMode(widthMeasureSpec);
         int width = MeasureSpec.getSize(widthMeasureSpec);
         if (widthMeasureMode == MeasureSpec.UNSPECIFIED || widthMeasureMode == MeasureSpec.AT_MOST){

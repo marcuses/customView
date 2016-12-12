@@ -8,5 +8,17 @@
         <attr name="titleText"/>
         <attr name="titleTextColor"/>
         <attr name="titleTextSize"/>
+        <attr name="scaletype">
+            <enum name="fitXY" value="1" />
+            <enum name="center" value="2"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="CustomImageView">
+        <attr name="titleText"/>
+        <attr name="titleTextColor"/>
+        <attr name="titleTextSize"/>
+        <attr name="src" format="reference|color"/>
+        <attr name="scaletype"/>
     </declare-styleable>
 </resources>
