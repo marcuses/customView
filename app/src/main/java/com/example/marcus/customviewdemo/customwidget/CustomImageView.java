@@ -41,48 +41,57 @@ public class CustomImageView extends View{
 
     public CustomImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomTextView, defStyleAttr, 0);
 
-        if (a != null){
-            int attrsCount = a.getIndexCount();
-            for (int index = 0; index < attrsCount; index++){
-                int attr = a.getIndex(index);
-                switch (attr){
-                    case R.styleable.CustomImageView_titleText:
-                        mStrTitleText = a.getString(attr);
-                        break;
-                    case R.styleable.CustomImageView_titleTextColor:
-                        mTitleTextColor = a.getColor(attr, Color.BLACK);
-                        break;
-                    case R.styleable.CustomImageView_scaletype:
-                        mScaleType = a.getInt(attr, 0);
-                        break;
-                    case R.styleable.CustomImageView_src:
-                        mImageDrawable = a.getDrawable(attr);
-                        break;
-                    case R.styleable.CustomImageView_titleTextSize:
-                        mTitleTextSize = (a.getDimension(attr,
-                                TypedValue.applyDimension(
-                                        TypedValue.COMPLEX_UNIT_SP,
-                                        16,
-                                        getResources().getDisplayMetrics())));
-                        break;
-                    default:
-                        break;
-                }
-            }
-            a.recycle();
-        }
+        initAttr(context, attrs, defStyleAttr);
 
-        if (mStrTitleText == null){
-            mStrTitleText = "";
-        }
+        initPaint();
+    }
 
+    private void initPaint() {
         mTextBound = new Rect();
         mPaint = new Paint();
         mPaint.setTextSize(mTitleTextSize);
         mPaint.getTextBounds(mStrTitleText, 0,
                 mStrTitleText.length(), mTextBound);
+    }
+
+    private void initAttr(Context context, AttributeSet attrs, int defStyleAttr){
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomImageView, defStyleAttr, 0);
+        if (mStrTitleText == null){
+            mStrTitleText = "";
+        }
+
+        if (a == null){
+            return;
+        }
+
+        int attrsCount = a.getIndexCount();
+        for (int index = 0; index < attrsCount; index++){
+            int attr = a.getIndex(index);
+            switch (attr){
+                case R.styleable.CustomImageView_titleText:
+                    mStrTitleText = a.getString(attr);
+                    break;
+                case R.styleable.CustomImageView_titleTextColor:
+                    mTitleTextColor = a.getColor(attr, Color.BLACK);
+                    break;
+                case R.styleable.CustomImageView_scaletype:
+                    mScaleType = a.getInt(attr, 0);
+                    break;
+                case R.styleable.CustomImageView_src:
+                    mImageDrawable = a.getDrawable(attr);
+                    break;
+                case R.styleable.CustomImageView_titleTextSize:
+                    mTitleTextSize = (a.getDimension(attr,
+                            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
+                                    16,
+                                    getResources().getDisplayMetrics())));
+                    break;
+                default:
+                    break;
+            }
+        }
+        a.recycle();
     }
 
     @Override
@@ -123,10 +132,12 @@ public class CustomImageView extends View{
         rect.right = getMeasuredWidth() - getPaddingRight();
         rect.bottom = getMeasuredHeight() - getPaddingBottom();
 
-        int width = getMeasuredWidth() - getPaddingLeft() - getPaddingRight();
-        if (mTextBound.width() > width){
+        int availableWidth = getMeasuredWidth() - getPaddingLeft() - getPaddingRight();
+        int availableHeight = getMeasuredHeight() - getPaddingBottom() - getPaddingTop() - mTextBound.height();
+        mPaint.setColor(mTitleTextColor);
+        if (mTextBound.width() > availableWidth){
             TextPaint paint = new TextPaint(mPaint);
-            String msg = TextUtils.ellipsize(mStrTitleText, paint, width, TextUtils.TruncateAt.END).toString();
+            String msg = TextUtils.ellipsize(mStrTitleText, paint, availableWidth, TextUtils.TruncateAt.END).toString();
             canvas.drawText(msg, getPaddingLeft(), getMeasuredHeight() - getPaddingBottom(), mPaint);
         } else {
             canvas.drawText(mStrTitleText, getMeasuredWidth() / 2 - mTextBound.width() / 2, getMeasuredHeight() - getPaddingBottom(), mPaint);
@@ -135,6 +146,13 @@ public class CustomImageView extends View{
         rect.bottom -= mTextBound.height();
 
         if (mScaleType == 1){
+            mImageDrawable.setBounds(rect);
+            mImageDrawable.draw(canvas);
+        } else {
+            rect.left = rect.left + (availableWidth - mImageDrawable.getIntrinsicWidth()) / 2;
+            rect.right -= (availableWidth - mImageDrawable.getIntrinsicWidth()) / 2;
+            rect.top += (availableHeight - mImageDrawable.getIntrinsicHeight()) /2;
+            rect.bottom -= (availableHeight - mImageDrawable.getIntrinsicHeight()) /2;
             mImageDrawable.setBounds(rect);
             mImageDrawable.draw(canvas);
         }

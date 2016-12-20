@@ -6,25 +6,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.marcus.customviewdemo.MainActivity">
 
-    <com.example.marcus.customviewdemo.customwidget.CustomTextView
-        app:titleText="@string/app_name"
-        app:titleTextColor="@color/colorAccent"
-        app:titleTextSize="40sp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"/>
-
+    <!--<com.example.marcus.customviewdemo.customwidget.CustomTextView-->
+        <!--app:titleText="@string/app_name"-->
+        <!--app:titleTextColor="@color/colorAccent"-->
+        <!--app:titleTextSize="40sp"-->
+        <!--android:paddingLeft="10dp"-->
+        <!--android:paddingRight="10dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_width="wrap_content"/>-->
 
     <com.example.marcus.customviewdemo.customwidget.CustomImageView
-        android:layout_width="wrap_content"
+        android:id="@+id/custom_image"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:titleText="@string/app_name"
         app:titleTextColor="@color/colorAccent"
         app:titleTextSize="40sp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:paddingBottom="10dp"
         app:src="@drawable/splash_anum_login_guide"
-        app:scaletype="fitXY"
+        app:scaletype="center"
         />
+
+    <com.example.marcus.customviewdemo.customwidget.CustomCircle
+        android:layout_below="@id/custom_image"
+        app:circleRadius="50dp"
+        app:circleWidth="10dp"
+        android:padding="10dp"
+        app:circleDrawSpeed="10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </RelativeLayout>
