@@ -115,8 +115,6 @@ public class CustomCircle extends View {
     protected void onDraw(Canvas canvas) {
         int center = getWidth() / 2;
         RectF rect = new RectF(center - mCircleRadius, center - mCircleRadius, center + mCircleRadius, center + mCircleRadius);
-        mPaint.setColor(Color.BLACK);
-        canvas.drawRect(rect, mPaint);
 
         mPaint.setStrokeWidth(mCircleWidth);
         mPaint.setStyle(Paint.Style.STROKE);
